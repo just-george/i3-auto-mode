@@ -1,0 +1,10 @@
+# Configuration example
+default_mode: 'default' # the mode used for empty workspace or unknown apps
+modes:
+  browser:
+    application_classes:
+      - Firefox # WM_CLASS values, use `xprop WM_CLASS` to find out a class
+  whatever:
+    application_classes:
+      - foo
+      - bar

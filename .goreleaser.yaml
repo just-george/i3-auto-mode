@@ -1,0 +1,45 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: i3-auto-mode
+    binary: i3-auto-mode
+    main: .
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    files:
+      - README.md
+      - LICENSE
+      - systemd/i3-auto-mode.service
+
+nfpms:
+  - id: default
+    package_name: i3-auto-mode
+    maintainer: just-george <20395372+just-george@users.noreply.github.com>
+    description: Switches the active i3 mode based on the focused window's class.
+    license: MIT
+    formats:
+      - deb
+      - rpm
+      - apk
+    contents:
+      - src: systemd/i3-auto-mode.service
+        dst: /usr/lib/systemd/user/i3-auto-mode.service
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc

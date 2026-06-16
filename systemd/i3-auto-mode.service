@@ -1,0 +1,7 @@
+[Unit]
+Description=i3 auto window mode switcher
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/i3-auto-mode
+Restart=on-failure
