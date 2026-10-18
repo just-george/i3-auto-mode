@@ -3,5 +3,8 @@ Description=i3 auto window mode switcher
 
 [Service]
 Type=simple
-ExecStart=%h/.local/bin/i3-auto-mode
+# $HOME/.local/bin in case of a manual install
+# /usr in case of a package install
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin
+ExecStart=/usr/bin/env i3-auto-mode
 Restart=on-failure
