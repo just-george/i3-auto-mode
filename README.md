@@ -8,11 +8,27 @@ Useful for binding-mode setups where you want different keybindings active
 depending on the focused app (e.g. workspace with a browser window, an IDE,
 etc.), without manually triggering the mode switch yourself.
 
-## Build
+## Install
+
+Grab a prebuilt package or binary from the
+[releases page](../../releases) (linux/amd64 and linux/arm64):
 
 ```bash
-go build -o "$HOME/.local/bin/i3-auto-mode" .
+# Debian/Ubuntu
+sudo dpkg -i i3-auto-mode_*_linux_amd64.deb
+
+# Fedora/RHEL
+sudo rpm -i i3-auto-mode_*_linux_amd64.rpm
+
+# Alpine
+sudo apk add --allow-untrusted i3-auto-mode_*_linux_amd64.apk
 ```
+
+Packages install the binary to `/usr/bin/i3-auto-mode` and the systemd
+unit to `/usr/lib/systemd/user/i3-auto-mode.service`
+
+Prefer a plain binary? Grab the `.tar.gz` instead — it contains the
+binary plus the same systemd unit and this README.
 
 ## Configuration
 
@@ -57,9 +73,10 @@ exec_always --no-startup-id $HOME/.local/bin/i3-auto-mode
 Runs the daemon under `systemd --user` instead of as a plain i3-launched
 process, so it gets restarted on crash (`Restart=on-failure`).
 
-See [`systemd/i3-auto-mode.service`](systemd/i3-auto-mode.service). Adjust
-`ExecStart` if you installed the binary somewhere other than `~/.local/bin`,
-then:
+Installed from a `.deb`/`.rpm`/`.apk` [release](../../releases) package?
+The unit is already in place at `/usr/lib/systemd/user/i3-auto-mode.service`
+— skip straight to the `exec` lines below. Built the binary yourself
+instead? See [`systemd/i3-auto-mode.service`](systemd/i3-auto-mode.service)
 
 ```bash
 mkdir -p ~/.config/systemd/user
@@ -78,6 +95,12 @@ exec --no-startup-id systemctl --user restart i3-auto-mode.service
 display manager, ...): the daemon finds i3's IPC socket by running `i3
 --get-socketpath`, which needs `$DISPLAY` — and the systemd `--user`
 instance doesn't necessarily have it unless something sets it explicitly.
+
+## Build
+
+```bash
+go build -o "$HOME/.local/bin/i3-auto-mode" .
+```
 
 ## Development
 
